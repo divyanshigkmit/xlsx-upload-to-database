@@ -14,21 +14,20 @@ const upload = async (req, res) => {
       // skip header
       rows.shift();
 
-      let tutorials = [];
+      let userDetail = [];
 
       rows.forEach((row) => {
-        let tutorial = {
-          id: row[0],
-          name: row[1],
-          birthday: row[2],
-          joining_date: row[3],
+        let user = {
+          name: row[0],
+          email: row[1],
+          date_of_birth: row[2],
+          date_of_joining: row[3],
           wedding_anniversary: row[4],
         };
 
-        tutorials.push(tutorial);
+        userDetail.push(user);
       });
-      console.log(tutorials);
-      model.UserDetails.bulkCreate(tutorials)
+      model.AnniversariesAndBirthdays.bulkCreate(userDetail)
         .then(() => {
           res.status(200).send({
             message: "Uploaded the file successfully: " + req.file.originalname,
@@ -49,20 +48,6 @@ const upload = async (req, res) => {
   }
 };
 
-const getTutorials = (req, res) => {
-  model.UserDetails.findAll()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials.",
-      });
-    });
-};
-
 module.exports = {
   upload,
-  getTutorials,
 };

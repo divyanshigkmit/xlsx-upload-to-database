@@ -2,23 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("user_details", {
+    await queryInterface.createTable("anniversaries_and_birthdays", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      s_no: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.literal("uuid_generate_v4()"),
       },
       name: {
         type: Sequelize.STRING,
       },
-      birthday: {
+      email: {
+        type: Sequelize.STRING,
+      },
+      date_of_birth: {
         type: Sequelize.DATEONLY,
       },
-      joining_date: {
+      date_of_joining: {
         type: Sequelize.DATEONLY,
       },
       wedding_anniversary: {
@@ -34,9 +34,14 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      deleted_at: {
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: null,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("user_details");
+    await queryInterface.dropTable("anniversaries_and_birthdays");
   },
 };
